@@ -42,5 +42,12 @@ class Database extends SQLite3{
         }
         return $categories;
     }
+
+    function getParentCategory($category){
+        $query = "SELECT * FROM categories WHERE id = $category->parent_id";
+        $result = $this->query($query);
+        $result = $result->fetchArray();
+        return new Category($result['id'], $result['name'], $result['parent_id']);
+    }
 }
 ?>
