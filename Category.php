@@ -25,11 +25,11 @@ class Category{
         return $depth;
     }
     
-    function printChildren($level){
+    function printChildrenRecursive($level){
         $childCategories = $GLOBALS['database']->getChildCategories($this->id);
         foreach ($childCategories as $child) {
            echo "</br>".str_repeat("-", $level).'|'.$child->name;
-           $child->printChildren($level + 1);   
+           $child->printChildrenRecursive($level + 1);
         }       
     }
     
@@ -46,7 +46,6 @@ class Category{
     function printChildrenIterative(){
         $stack = array();
         array_push($stack, $this);
-        $level = 0;
         while(count($stack) != 0){
             $topCategory = array_pop($stack);
             foreach($GLOBALS['database']->getChildCategories($topCategory->id) as $child){
