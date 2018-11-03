@@ -40,8 +40,7 @@ and open the template in the editor.
         <div style='font-family: Consolas, monaco, monospace;'>
         <?php  $rootCategories = $database->getChildCategories(0);
             foreach ($rootCategories as $category) {
-                echo $category->name;
-                $category->printChildren(1);
+                $category->printChildrenIterative();
         }?>
         </div>
     </body>
