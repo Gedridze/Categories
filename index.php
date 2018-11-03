@@ -27,10 +27,9 @@ and open the template in the editor.
             <select name="parent">
                 <option value="0">/</option>
                 <?php
-                while ($row = $categories->fetchArray()) {
-                    $category = new Category($row['id'], $row['name'], $row['parent_id']);
+                foreach ($categories as $category) {
                     
-                    echo '<option value='.$row['id'].'>/'.$category->getPath().'</option>';
+                    echo '<option value='.$category->id.'>/'.$category->getPath().'</option>';
                 }
                 ?>
             </select>
@@ -39,9 +38,8 @@ and open the template in the editor.
         </form>
         </br>
         <div style='font-family: Consolas, monaco, monospace;'>
-        <?php  $rootCategories = $database->getCategoriesOfParent(0);
-            while ($row = $rootCategories->fetchArray()) {
-                $category = new Category($row['id'], $row['name'], $row['parent_id']);
+        <?php  $rootCategories = $database->getChildCategories(0);
+            foreach ($rootCategories as $category) {
                 echo $category->name;
                 $category->printChildren(1);
         }?>
