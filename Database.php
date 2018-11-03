@@ -24,13 +24,23 @@ class Database extends SQLite3{
     }
     
     function getAllCategories(){
+        $categories = array();
        $query = "SELECT * FROM categories";
-       return $this->query($query);
+       $result = $this->query($query);
+       while($row = $result->fetchArray()){
+           $categories [] = new Category($row['id'], $row['name'], $row['parent_id']);
+       }
+       return $categories;
     }
     
-    function getCategoriesOfParent($id){
+    function getChildCategories($id){
+        $categories = array();
         $query = "SELECT * FROM categories WHERE parent_id = $id ";
-        return $this->query($query);
+        $result = $this->query($query);
+        while($row = $result->fetchArray()){
+            $categories[] = new Category($row['id'], $row['name'], $row['parent_id']);
+        }
+        return $categories;
     }
 }
 ?>

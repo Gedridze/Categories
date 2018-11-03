@@ -14,15 +14,15 @@ class Category{
     }
     
     function printChildren($level){
-        $childCategories = $GLOBALS['database']->getCategoriesOfParent($this->id);
-        while ($row = $childCategories->fetchArray()) {
-           $child = new Category($row['id'], $row['name'], $row['parent_id']);
-           echo "</br>".str_repeat("-", $level).'|'.$row['name'];
+        $childCategories = $GLOBALS['database']->getChildCategories($this->id);
+        foreach ($childCategories as $child) {
+           echo "</br>".str_repeat("-", $level).'|'.$child->name;
            $child->printChildren($level + 1);   
         }       
     }
     
     function getPath(){
+        $path="";
         for($category = $this; $category->parent_id != 0; $category = $GLOBALS['database']->getCategory($category->parent_id)){
             $path = $category->name.'/'.$path;
         }
